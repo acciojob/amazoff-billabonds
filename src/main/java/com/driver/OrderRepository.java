@@ -27,8 +27,12 @@ public class OrderRepository {
     }
 
     public void addorder(Order order){                                                            // 1st API
-        String key = order.getId();
-        orderMap.put(key,order);
+
+        if(orderMap.containsKey(order))
+        {
+            String key = order.getId();
+            orderMap.put(key, order);
+        }
     }
 
     public void addPartner(String partnerId){                                                     // 2nd API
@@ -39,21 +43,21 @@ public class OrderRepository {
 
     public void addOrderPartnerPair(String orderId,String partnerId){                             // 3rd API
 
-//        if(orderMap.containsKey(orderId) && partnerMap.containsKey(partnerId)){
-//
-//            HashSet<String> currentOrders = new HashSet<>();
-//
-//            if(partnerToOrderMap.containsKey(partnerId)){
-//                currentOrders = partnerToOrderMap.get(partnerId);
-//            }
-//            currentOrders.add(orderId);
-//            partnerToOrderMap.put(partnerId,currentOrders);
-//
-//            DeliveryPartner partner = partnerMap.get(partnerId);
-//            partner.setNumberOfOrders(currentOrders.size());
-//
-//            orderToPartnerMap.put(orderId, partnerId);
-//        }
+        if(orderMap.containsKey(orderId) && partnerMap.containsKey(partnerId)){
+
+            HashSet<String> currentOrders = new HashSet<>();
+
+            if(partnerToOrderMap.containsKey(partnerId)){
+                currentOrders = partnerToOrderMap.get(partnerId);
+            }
+            currentOrders.add(orderId);
+            partnerToOrderMap.put(partnerId,currentOrders);
+
+            DeliveryPartner partner = partnerMap.get(partnerId);
+            partner.setNumberOfOrders(currentOrders.size());
+
+            orderToPartnerMap.put(orderId, partnerId);
+        }
     }
 
     public Order getOrderById(String orderId){                                                        // 4th API
@@ -62,7 +66,12 @@ public class OrderRepository {
     }
 
     public DeliveryPartner getPartnerById(String partnerId){                                            // 5th API
-        DeliveryPartner deliveryPartner = partnerMap.get(partnerId);
+
+        DeliveryPartner deliveryPartner = null;
+
+        if(partnerMap.containsKey(partnerId))
+           deliveryPartner = partnerMap.get(partnerId);
+
         return deliveryPartner;
     }
 
@@ -78,7 +87,7 @@ public class OrderRepository {
 
     public List<String> getOrdersByPartnerId(String partnerId){                                         // 7th API
 
-        HashSet<String> orderList = new HashSet<>();
+        HashSet<String> orderList = null;
 
         if(partnerToOrderMap.containsKey(partnerId))
             orderList = partnerToOrderMap.get(partnerId);
@@ -92,7 +101,7 @@ public class OrderRepository {
     }
 
     public Integer getCountOfUnassignedOrders(){                                                         // 9th API
-        int countOfOrders = 0;
+        Integer countOfOrders = 0;
 
         List<String> list = new ArrayList<>(orderMap.keySet());
 
@@ -170,17 +179,27 @@ public class OrderRepository {
         return str.toString();
     }
 
-    public void deletePartnerById(String partnerId){                                                    // 12th API
+    public void deletePartnerById(String partnerId) {                                                    // 12th API
 
-        for(String st : partnerToOrderMap.get(partnerId)){
-            orderMap.remove(st);
+        HashSet<String> list = new HashSet<>();
 
-            if(orderToPartnerMap.containsKey(st))
-                orderToPartnerMap.remove(st);
+        if(partnerToOrderMap.containsKey(partnerId))
+        {
+            list = partnerToOrderMap.get(partnerId);
+
+            for (String st : list) {
+                orderMap.remove(st);
+
+                if (orderToPartnerMap.containsKey(st))
+                    orderToPartnerMap.remove(st);
+            }
+
+            partnerToOrderMap.remove(partnerId);
         }
 
-        partnerToOrderMap.remove(partnerId);
-        partnerMap.remove(partnerId);
+        if(partnerMap.containsKey(partnerId)) {
+            partnerMap.remove(partnerId);
+        }
     }
 
     public void deleteOrderById(String orderId){                                                        // 13th API                                                                                            // 13th API

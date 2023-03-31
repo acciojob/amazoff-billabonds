@@ -50,7 +50,7 @@ public class OrderService {
     }
 
     public Integer getCountOfUnassignedOrders(){                                                         // 9th API
-        int countOfOrders = orderRepository.getCountOfUnassignedOrders();
+        Integer countOfOrders = orderRepository.getCountOfUnassignedOrders();
         return countOfOrders;
     }
 
