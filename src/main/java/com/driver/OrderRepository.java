@@ -155,7 +155,7 @@ public class OrderRepository {
         }
         StringBuilder str = new StringBuilder();
 
-        int hr = delivery_time % 60;                 // calculate hour
+        int hr = delivery_time / 60;                 // calculate hour
         if(hr < 10)
             str.append(0).append(hr);
         else
