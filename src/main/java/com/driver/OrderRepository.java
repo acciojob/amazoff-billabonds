@@ -169,7 +169,7 @@ public class OrderRepository {
         else
             str.append(min);
 
-        str.append(min);
+//        str.append(min);
 
         return str.toString();
     }
@@ -183,7 +183,7 @@ public class OrderRepository {
             list = partnerToOrderMap.get(partnerId);
 
             for (String st : list) {
-                orderMap.remove(st);
+//                orderMap.remove(st);
 
                 if (orderToPartnerMap.containsKey(st))
                     orderToPartnerMap.remove(st);
