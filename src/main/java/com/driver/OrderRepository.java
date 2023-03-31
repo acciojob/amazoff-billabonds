@@ -28,11 +28,9 @@ public class OrderRepository {
 
     public void addorder(Order order){                                                            // 1st API
 
-        if(orderMap.containsKey(order))
-        {
             String key = order.getId();
-            orderMap.put(key, order);
-        }
+            if(key != null)
+              orderMap.put(key, order);
     }
 
     public void addPartner(String partnerId){                                                     // 2nd API
