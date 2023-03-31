@@ -12,11 +12,8 @@ import java.util.List;
 public class OrderRepository {
 
     HashMap<String,Order> orderMap;
-
     HashMap<String,DeliveryPartner> partnerMap;
-
     HashMap<String,String> orderToPartnerMap;                     // key : orderid , value : partnerid
-
     HashMap<String, HashSet<String>> partnerToOrderMap;           // key : partnerid , value : HashSet<orderid>
 
     public OrderRepository() {
